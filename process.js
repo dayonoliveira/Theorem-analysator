@@ -1,8 +1,11 @@
 /*
 
 (p^~q)&((~p&q))
+(p ^ ~q) & ((~p & q))
 p^~q&(~p&q)
 p&(q^r)-(p&q)^(p&r)
+
+
 
 */
 let v = prompt("Input the new formula:").split("");
@@ -12,9 +15,19 @@ console.log(v);
 
 function stage1() {
 
+    let spaceIndex = 0;
+
     for (let i = 0; i < v.length; i++) {
         if (chars.indexOf(v[i]) < 0) {
             throw new Error("Lexic Error: The input is invalid.")
+        }
+    }
+
+    while(spaceIndex != -1){
+        spaceIndex = v.indexOf(" ");
+
+        if(spaceIndex != -1){
+            v.splice(spaceIndex, 1);
         }
     }
 }
