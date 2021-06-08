@@ -1,14 +1,14 @@
 /*
 
-(p^~q)&((~p&q))
+"(p^~q)&((~p&q))"
 (p ^ ~q) & ((~p & q))
 p^~q&(~p&q)
 p&(q^r)-(p&q)^(p&r)
 
-
+prompt("Input the new formula:")
 
 */
-let v = prompt("Input the new formula:").split("");
+let v = "(p^~q)&((~p&q))".split("");
 let chars = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
 /*26*/">",/*27*/"-",/*28*/"^",/*29*/"&",/*30*/"~","(",")"," "];
 console.log(v);
@@ -118,6 +118,10 @@ function stage2() {
         }
         console.log(v);
     }
+}
+
+function stage3(){
+    
 }
 
 stage1();

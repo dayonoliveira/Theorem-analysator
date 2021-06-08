@@ -1,0 +1,36 @@
+body{
+    background-color: #535353;
+    color: rgb(253, 247, 241);
+    font-family: sans-serif;
+    margin-left: 20px;
+    
+}
+
+#container{
+    /* display:flex; */
+    margin-top: calc(100% - 800px);
+    height: 500px;
+
+}
+
+.stage{
+    margin-top: 100px;
+    height: 100px;
+}
+
+.result{
+    margin-top: 40px;
+    margin-left: 20px;
+}
+
+#firstStage{
+    color: rgb(172, 255, 94);
+}
+
+#secondStage{
+    color: rgb(244, 255, 94);
+}
+
+#thirdStage{
+    color: rgb(255, 119, 119);
+}
