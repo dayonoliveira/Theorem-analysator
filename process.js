@@ -8,9 +8,18 @@ p&(q^r)-(p&q)^(p&r)
 prompt("Input the new formula:")
 
 */
-let v = "(p^~q)&((~p&q))".split("");
+let v = "(p^~q)^((~p&q))".split("");
 let chars = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
 /*26*/">",/*27*/"-",/*28*/"^",/*29*/"&",/*30*/"~","(",")"," "];
+let aux = ""
+
+for(let i = 0; i < v.length; i++){
+    aux += v[i];
+}
+
+document.getElementById("formula").innerHTML = "Fórmula: " + aux;
+
+
 console.log(v);
 
 function stage1() {
@@ -19,8 +28,11 @@ function stage1() {
 
     for (let i = 0; i < v.length; i++) {
         if (chars.indexOf(v[i]) < 0) {
+            
+            document.getElementById("stageOneTitle").innerHTML = "Etapa I - Falhou";
 
-            document.getElementById("resultOne").innerHTML = "Lexic Error: The input is invalid."
+            document.getElementById("resultOne").innerHTML = "Lexic Error: The input is invalid.";
+
 
             throw new Error("Lexic Error: The input is invalid.")
         }
@@ -33,24 +45,30 @@ function stage1() {
             v.splice(spaceIndex, 1);
         }
     }
+    document.getElementById("stageOneTitle").innerHTML = "Etapa I - Concluída";
 }
 
 function stage2() {
 
     if (v[0] == chars[26] || v[0] == chars[27] || v[0] == chars[28] || v[0] == chars[29]){
-        document.getElementById("resultTwo").innerHTML = "Syntax Error: The input is invalid."
+        
+        document.getElementById("stageTwoTitle").innerHTML = "Etapa II - Falhou";
+        
+        document.getElementById("resultTwo").innerHTML = "Syntax Error: The input is invalid.";
         
         console.log("Syntax error: The input is invalid.");
     }
     if (v[v.length-1] == chars[26] || v[v.length-1] == chars[27] || v[v.length-1] == chars[28] || v[v.length-1] == chars[29] || v[v.length-1] == chars[30]) {
-        document.getElementById("resultTwo").innerHTML = "Syntax Error: The input is invalid."
+        document.getElementById("stageTwoTitle").innerHTML = "Etapa II - Falhou";
+        
+        document.getElementById("resultTwo").innerHTML = "Syntax Error: The input is invalid.";
         
         console.log("Syntax error: The input is invalid.");
     }
 
-    completeParentheses()
+    parenthesesTester()
 
-    function completeParentheses(){
+    function parenthesesTester(){
         let openedParentheses = 0;
         let closedParentheses = 0;
 
@@ -63,7 +81,10 @@ function stage2() {
         }
 
         if(openedParentheses != closedParentheses){
-            document.getElementById("resultTwo").innerHTML = "Syntax error: The parentheses is not completed."
+            
+            document.getElementById("stageTwoTitle").innerHTML = "Etapa II - Falhou";
+            
+            document.getElementById("results").innerHTML = "Syntax error: The parentheses is not completed.";
 
             throw new Error("Syntax error: The parentheses is not completed.");
         }
@@ -90,7 +111,7 @@ function stage2() {
                     if(v[i + 3] == "&" || v[i + 3] == "^"){
                         console.log("Necessary parenthesis.");
                     }else{
-                        document.getElementById("resultTwo").innerHTML = "Syntax warning: The parentheses is not necessary."
+                        document.getElementById("resultTwo").innerHTML = "Syntax warning: The parentheses is not necessary.";
                         console.log("Syntax warning: The parentheses is not necessary.");
                         console.log(v);
                         v.splice(i, 1);
@@ -111,7 +132,7 @@ function stage2() {
                     if(v[i + 2] == "&" || v[i + 2] == "^"){
                         console.log("Necessary parenthesis.");
                     }else{
-                        document.getElementById("resultTwo").innerHTML = "Syntax warning: The parentheses is not necessary."
+                        document.getElementById("resultTwo").innerHTML = "Syntax warning: The parentheses is not necessary.";
                         console.log("Syntax warning: The parentheses is not necessary.");
                         console.log(v);
                         v.splice(i, 1);
@@ -128,13 +149,13 @@ function stage2() {
                     
                     let aux = "";
                     
-                    document.getElementById("resultTwo").innerHTML = "Syntax warning: The parentheses is not necessary."
+                    document.getElementById("resultTwo").innerHTML = "Syntax warning: The parentheses is not necessary.";
                     
                     for(let i = 0; i < v.length; i++){
                         aux += v[i];
                     }
 
-                    document.getElementById("oldFormula").innerHTML = "Old formula: " + aux
+                    document.getElementById("oldFormula").innerHTML = "Old formula: " + aux;
                     
                     console.log("Syntax warning: The parentheses is not necessary.");
                     console.log(v);
@@ -160,6 +181,8 @@ function stage2() {
         }
         console.log(v);
     }
+
+    document.getElementById("stageTwoTitle").innerHTML = "Etapa II - Concluída";
 }
 
 function stage3(){

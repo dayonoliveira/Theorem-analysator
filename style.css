@@ -1,22 +1,37 @@
 body{
-    background-color: #535353;
+    background-color: #333333;
     color: rgb(253, 247, 241);
     font-family: sans-serif;
     margin-left: 20px;
     
+    
 }
 
-#container{  
-    margin-top: calc(50% - 800px);
-    height: 500px;
-
+#formula{
+    margin-top: 40px;
+    margin-bottom: 150px;
 }
-.result{
+
+hr{
+    margin-left: 0px;
+    width: 200px;
+}
+
+.stage{
+    margin-bottom: 100px;
+}
+
+#results{
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: 20px;
     font-family: sans-serif;
-    font-size: 20px;
+    font-size: 18px;
+}
+
+.result{
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #firstStage{
@@ -29,11 +44,12 @@ body{
     color: rgb(244, 255, 94);
 }
 
-#newFormula{
-    margin-top: 25px;
-}
-
 #thirdStage{
     margin-top: 10px;
     color: rgb(255, 119, 119);
+}
+
+.stageTitles{
+    font-family: sans-serif;
+    font-size: 32px;
 }
