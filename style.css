@@ -6,31 +6,34 @@ body{
     
 }
 
-#container{
-    /* display:flex; */
-    margin-top: calc(100% - 800px);
+#container{  
+    margin-top: calc(50% - 800px);
     height: 500px;
 
 }
-
-.stage{
-    margin-top: 100px;
-    height: 100px;
-}
-
 .result{
-    margin-top: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     margin-left: 20px;
+    font-family: sans-serif;
+    font-size: 20px;
 }
 
 #firstStage{
+    margin-top: 10px;
     color: rgb(172, 255, 94);
 }
 
 #secondStage{
+    margin-top: 10px;
     color: rgb(244, 255, 94);
 }
 
+#newFormula{
+    margin-top: 25px;
+}
+
 #thirdStage{
+    margin-top: 10px;
     color: rgb(255, 119, 119);
 }

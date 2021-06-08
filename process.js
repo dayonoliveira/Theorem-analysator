@@ -19,6 +19,9 @@ function stage1() {
 
     for (let i = 0; i < v.length; i++) {
         if (chars.indexOf(v[i]) < 0) {
+
+            document.getElementById("resultOne").innerHTML = "Lexic Error: The input is invalid."
+
             throw new Error("Lexic Error: The input is invalid.")
         }
     }
@@ -35,9 +38,13 @@ function stage1() {
 function stage2() {
 
     if (v[0] == chars[26] || v[0] == chars[27] || v[0] == chars[28] || v[0] == chars[29]){
+        document.getElementById("resultTwo").innerHTML = "Syntax Error: The input is invalid."
+        
         console.log("Syntax error: The input is invalid.");
     }
     if (v[v.length-1] == chars[26] || v[v.length-1] == chars[27] || v[v.length-1] == chars[28] || v[v.length-1] == chars[29] || v[v.length-1] == chars[30]) {
+        document.getElementById("resultTwo").innerHTML = "Syntax Error: The input is invalid."
+        
         console.log("Syntax error: The input is invalid.");
     }
 
@@ -56,6 +63,8 @@ function stage2() {
         }
 
         if(openedParentheses != closedParentheses){
+            document.getElementById("resultTwo").innerHTML = "Syntax error: The parentheses is not completed."
+
             throw new Error("Syntax error: The parentheses is not completed.");
         }
 
@@ -81,6 +90,7 @@ function stage2() {
                     if(v[i + 3] == "&" || v[i + 3] == "^"){
                         console.log("Necessary parenthesis.");
                     }else{
+                        document.getElementById("resultTwo").innerHTML = "Syntax warning: The parentheses is not necessary."
                         console.log("Syntax warning: The parentheses is not necessary.");
                         console.log(v);
                         v.splice(i, 1);
@@ -101,6 +111,7 @@ function stage2() {
                     if(v[i + 2] == "&" || v[i + 2] == "^"){
                         console.log("Necessary parenthesis.");
                     }else{
+                        document.getElementById("resultTwo").innerHTML = "Syntax warning: The parentheses is not necessary."
                         console.log("Syntax warning: The parentheses is not necessary.");
                         console.log(v);
                         v.splice(i, 1);
@@ -113,6 +124,37 @@ function stage2() {
                             }
                         }
                     }
+                }else if(v[i - 1] == "-" || v[i - 1] == ">" || v[i - 1] == "~"){
+                    
+                    let aux = "";
+                    
+                    document.getElementById("resultTwo").innerHTML = "Syntax warning: The parentheses is not necessary."
+                    
+                    for(let i = 0; i < v.length; i++){
+                        aux += v[i];
+                    }
+
+                    document.getElementById("oldFormula").innerHTML = "Old formula: " + aux
+                    
+                    console.log("Syntax warning: The parentheses is not necessary.");
+                    console.log(v);
+                    v.splice(i, 1);
+                    
+                    for(let j = i; j < v.length; j++){
+                        if(v[j] == ")"){
+                            v.splice(j, 1);
+                            j = v.length;
+                            
+                        }
+                    }
+
+                    aux = "";
+
+                    for(let i = 0; i < v.length; i++){
+                        aux += v[i];
+                    }
+                    
+                    document.getElementById("newFormula").innerHTML = "New formula: " + aux;
                 }
             }
         }
