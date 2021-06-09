@@ -202,8 +202,44 @@ function stage3(){
     console.log(lines);
     console.log(columns);
 
-    
+    truthTableGenerator(lines, columns);
 
+
+    function truthTableGenerator(lines, columns){
+
+        let table = [];
+        let counter = 2;
+
+        for(let i = 0; i < columns; i++){
+            table[i] = [];
+
+            if(i != 0){
+                for(let j = 0; j < lines; j+=counter){
+                    for(let w = 0; w < counter; w++){
+                        if(table[i][j - 1] == 0){
+                            table[i].push(1);
+                        }else if(table[i][j - 1] == 1){
+                            table[i].push(0);
+                        }else if(table[i][j - 1] == undefined){
+                            table[i].push(1);
+                        }
+                    }
+                }
+                counter *= 2;
+            }else{
+                for(let j = 0; j < lines; j++){
+                    if(j % 2 == 0){
+                        table[i][j] = 1;
+                    }else{
+                        table[i][j] = 0;
+                    }
+                }
+            }
+
+            
+        }
+        console.log(table);
+    }
 }
 
 stage1();
