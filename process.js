@@ -8,7 +8,7 @@ p&(q^r)-(p&q)^(p&r)
 prompt("Input the new formula:")
 
 */
-let v = "(p^~q)^((~p&q))".split("");
+let v = "(p^~t)^((~v&r))".split("");
 let chars = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
 /*26*/">",/*27*/"-",/*28*/"^",/*29*/"&",/*30*/"~","(",")"," "];
 let aux = ""
@@ -34,7 +34,7 @@ function stage1() {
             document.getElementById("resultOne").innerHTML = "Lexic Error: The input is invalid.";
 
 
-            throw new Error("Lexic Error: The input is invalid.")
+            throw new Error("Lexic Error: The input is invalid.");
         }
     }
 
@@ -186,9 +186,28 @@ function stage2() {
 }
 
 function stage3(){
+    let letterCount = 0;
+    let lines = 0;
+    let columns = 0;
+
+    for(let i = 0; i < 24; i++){
+        if(v.indexOf(chars[i]) > 0){
+            letterCount++;
+        }
+    }
+
+    lines = Math.pow(2,letterCount);
+    columns = letterCount;
+
+    console.log(lines);
+    console.log(columns);
+
     
+
 }
 
 stage1();
 
 stage2();
+
+stage3();
