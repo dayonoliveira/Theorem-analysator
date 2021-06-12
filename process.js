@@ -8,7 +8,7 @@ p&(q^r)-(p&q)^(p&r)
 prompt("Input the new formula:")
 
 */
-let v = "(p^~t)^((~v&r))".split("");
+let v = "(p^~t)-~v&r".split("");
 let chars = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
 /*26*/">",/*27*/"-",/*28*/"^",/*29*/"&",/*30*/"~","(",")"," "];
 let aux = ""
@@ -189,6 +189,7 @@ function stage3(){
     let letterCount = 0;
     let lines = 0;
     let columns = 0;
+    let table;
 
     for(let i = 0; i < 24; i++){
         if(v.indexOf(chars[i]) > 0){
@@ -202,7 +203,7 @@ function stage3(){
     console.log(lines);
     console.log(columns);
 
-    truthTableGenerator(lines, columns);
+    table = truthTableGenerator(lines, columns);
 
 
     function truthTableGenerator(lines, columns){
@@ -238,7 +239,31 @@ function stage3(){
 
             
         }
-        console.log(table);
+        return table;
+    }
+
+    console.log(table);
+
+    formulaSlicer();
+
+    function formulaSlicer(){
+        
+    }
+
+    function orTest(){
+
+    }
+
+    function andTest(){
+        
+    }
+
+    function ifTest(){
+        
+    }
+
+    function ifOnlyIfTest(){
+        
     }
 }
 
