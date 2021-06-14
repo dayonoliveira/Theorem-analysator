@@ -1,6 +1,7 @@
 /*
 
 "(p^~q)&((~p&q))"
+"(p^~t)-~p&r"
 (p ^ ~q) & ((~p & q))
 p^~q&(~p&q)
 p&(q^r)-(p&q)^(p&r)
@@ -8,9 +9,9 @@ p&(q^r)-(p&q)^(p&r)
 prompt("Input the new formula:")
 
 */
-let v = "(p^~t)-~v&r".split("");
+let v = "t-(~p&r)".split("");
 let chars = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
-/*26*/">",/*27*/"-",/*28*/"^",/*29*/"&",/*30*/"~","(",")"," "];
+/*26*/"~",/*27*/"-",/*28*/"^",/*29*/"&",/*30*/">","(",")"," "];
 let aux = ""
 
 for(let i = 0; i < v.length; i++){
@@ -190,9 +191,13 @@ function stage3(){
     let lines = 0;
     let columns = 0;
     let table;
+    let lettersPosition = []
+
+    function test(){}
 
     for(let i = 0; i < 24; i++){
         if(v.indexOf(chars[i]) > 0){
+            lettersPosition.push(chars[i]);
             letterCount++;
         }
     }
@@ -202,6 +207,7 @@ function stage3(){
 
     console.log(lines);
     console.log(columns);
+    console.log(lettersPosition);
 
     table = truthTableGenerator(lines, columns);
 
@@ -243,26 +249,120 @@ function stage3(){
     }
 
     console.log(table);
+    console.log(v);
 
-    formulaSlicer();
+    formulaResolver();
 
-    function formulaSlicer(){
+    function formulaResolver(){
+        let letterIndex = [];
+        let operationIndexes = [];
+        let firstsOperations = 0
+        /* let logicFormula = {
+            firstVariableIndex : 0,
+            firstVariableNeg : false,
+            secondVariableIndex : 0,
+            secondVariableNeg : false,
+            operationIndex : 0,
+            operationType : ""
+        } */
+         
+        for(let i = 0; i < v.length; i++){
+            for(let j = 0; j < 26; j++){
+                if(v[i] == chars[j]){
+                    letterIndex.push(i);
+                }
+            }
+        }
+    
+        letterIndex = letterIndex.sort((a, b) => a - b);
+
+        for(let i = v.length - 1; i > 0; i--){
+            for(let j = 26; j < 30; j++){
+                if(v[i] == chars[j] && v[i] != "~" && (v[i - 1] != ")" || v[i + 1] != "(")){
+                    if(v[i] != chars[27] && v[i] != chars[30]){
+                        operationIndexes.unshift(i);
+                        firstsOperations++;
+                    }else{
+                        operationIndexes.push(i);
+                    }
+                }else if(v[i] == chars[j] && v[i] != "~" && (v[i - 1] == ")" || v[i + 1] == "(")){
+                    operationIndexes.push(i);
+                }
+            }
+        }
+
+        console.log(letterIndex);
+        console.log(operationIndexes);
+
+        //operationIndexes = operationIndexes.sort((a, b) => a - b);
+
+
+
+        for(let i = 0; i < operationIndexes.length; i++){
+            for(let j = 0; j < firstsOperations; j++){
+                if(v[operationIndexes[j]] == chars[28]){
+                    let letter1;
+                    let letter2;
+
+                    if(v[operationIndexes[j] + 1] == "~" && v[operationIndexes[j] - 2] == "~"){
+                        letter1 = v[operationIndexes[j] - 2] + v[operationIndexes[j] - 1];
+                        letter2 = v[operationIndexes[j] + 1] + v[operationIndexes[j] + 2];
+                    }else if(v[operationIndexes[j] + 1] != "~" && v[operationIndexes[j] - 2] == "~"){
+                        letter1 = v[operationIndexes[j] - 2] + v[operationIndexes[j] - 1];
+                        letter2 = v[operationIndexes[j] + 1];
+                    }else if(v[operationIndexes[j] + 1] == "~" && v[operationIndexes[j] - 2] != "~"){
+                        letter1 = v[operationIndexes[j] - 1];
+                        letter2 = v[operationIndexes[j] + 1] + v[operationIndexes[j] + 2];
+                    }else if(v[operationIndexes[j] + 1] != "~" && v[operationIndexes[j] - 2] != "~"){
+                        letter1 = v[operationIndexes[j] - 1];
+                        letter2 = v[operationIndexes[j] + 1];
+                    }
+
+                    console.log(letter1);
+                    console.log(letter2);
+                }else if(v[operationIndexes[j]] == chars[29]){
+                    let letter1;
+                    let letter2;
+
+                    if(v[operationIndexes[j] + 1] == "~" && v[operationIndexes[j] - 2] == "~"){
+                        letter1 = v[operationIndexes[j] - 2] + v[operationIndexes[j] - 1];
+                        letter2 = v[operationIndexes[j] + 1] + v[operationIndexes[j] + 2];
+                    }else if(v[operationIndexes[j] + 1] != "~" && v[operationIndexes[j] - 2] == "~"){
+                        letter1 = v[operationIndexes[j] - 2] + v[operationIndexes[j] - 1];
+                        letter2 = v[operationIndexes[j] + 1];
+                    }else if(v[operationIndexes[j] + 1] == "~" && v[operationIndexes[j] - 2] != "~"){
+                        letter1 = v[operationIndexes[j] - 1];
+                        letter2 = v[operationIndexes[j] + 1] + v[operationIndexes[j] + 2];
+                    }else if(v[operationIndexes[j] + 1] != "~" && v[operationIndexes[j] - 2] != "~"){
+                        letter1 = v[operationIndexes[j] - 1];
+                        letter2 = v[operationIndexes[j] + 1];
+                    }
+
+                    console.log(letter1);
+                    console.log(letter2);
+                }
+            }
+        }
+
+    }
+
+    function orTest(table, letters,  tableLength, letter1, letter2){
+        let result = []
+        for(let i = 0; i < tableLength; i++){
+            result.push(table[letters.indexOf(letter1)][i] || table[letters.indexOf(letter2)][i]);
+        }
+        return result;
+    }
+
+    function andTest(tableLength, letter1, letter2, vector1, vector2){
         
     }
 
-    function orTest(){
-
-    }
-
-    function andTest(){
+    function ifTest(tableLength, letter1, letter2, vector1, vector2){
         
     }
 
-    function ifTest(){
-        
-    }
-
-    function ifOnlyIfTest(){
+    function ifOnlyIfTest(tableLength, letter1, letter2, vector1, vector2){
         
     }
 }
