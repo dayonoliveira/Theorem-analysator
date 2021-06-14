@@ -223,12 +223,12 @@ function stage3(){
             if(i != 0){
                 for(let j = 0; j < lines; j+=counter){
                     for(let w = 0; w < counter; w++){
-                        if(table[i][j - 1] == 0){
-                            table[i].push(1);
-                        }else if(table[i][j - 1] == 1){
-                            table[i].push(0);
+                        if(table[i][j - 1] == false){
+                            table[i].push(true);
+                        }else if(table[i][j - 1] == true){
+                            table[i].push(false);
                         }else if(table[i][j - 1] == undefined){
-                            table[i].push(1);
+                            table[i].push(false);
                         }
                     }
                 }
@@ -236,9 +236,9 @@ function stage3(){
             }else{
                 for(let j = 0; j < lines; j++){
                     if(j % 2 == 0){
-                        table[i][j] = 1;
+                        table[i][j] = false;
                     }else{
-                        table[i][j] = 0;
+                        table[i][j] = true;
                     }
                 }
             }
@@ -323,6 +323,7 @@ function stage3(){
                 }else if(v[operationIndexes[j]] == chars[29]){
                     let letter1;
                     let letter2;
+                    let result = [];
 
                     if(v[operationIndexes[j] + 1] == "~" && v[operationIndexes[j] - 2] == "~"){
                         letter1 = v[operationIndexes[j] - 2] + v[operationIndexes[j] - 1];
@@ -338,8 +339,11 @@ function stage3(){
                         letter2 = v[operationIndexes[j] + 1];
                     }
 
+                    result = andTest(table, lettersPosition, lines, letter1, letter2);
+
                     console.log(letter1);
                     console.log(letter2);
+                    console.log(result);
                 }
             }
         }
@@ -354,8 +358,21 @@ function stage3(){
         return result;
     }
 
-    function andTest(tableLength, letter1, letter2, vector1, vector2){
-        
+    function andTest(table, letters,  tableLength, letter1, letter2){
+        let result = []
+        for(let i = 0; i < tableLength; i++){
+            if(letter1[0] == "~" && letter2[0] == "~"){
+                result.push(!(table[letters.indexOf(letter1[1])][i]) && !(table[letters.indexOf(letter2[1])][i]));
+            }else if(letter1[0] != "~" && letter2[0] == "~"){
+                result.push(table[letters.indexOf(letter1)][i] && !(table[letters.indexOf(letter2[1])][i]));
+            }else if(letter1[0] == "~" && letter2[0] != "~"){
+                result.push(!(table[letters.indexOf(letter1[1])][i]) && table[letters.indexOf(letter2)][i]);
+            }else if(letter1[0] != "~" && letter2[0] != "~"){
+                result.push(table[letters.indexOf(letter1)][i] && table[letters.indexOf(letter2)][i]);
+            }
+            
+        }
+        return result;
     }
 
     function ifTest(tableLength, letter1, letter2, vector1, vector2){
