@@ -9,7 +9,7 @@ p&(q^r)-(p&q)^(p&r)
 prompt("Input the new formula:")
 
 */
-let v = "(~p^t)>(t>(p&~r))".split("");
+let v = "(~p^t)>(t>p&~r)".split("");
 let chars = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
 /*26*/"~",/*27*/"-",/*28*/"^",/*29*/"&",/*30*/">","(",")"," "];
 let aux = ""
@@ -198,7 +198,7 @@ function stage3(){
 
     for(let i = 0; i < 24; i++){
         if(v.indexOf(chars[i]) > 0){
-            lettersPosition.push(chars[i]);
+            lettersPosition.unshift(chars[i]);
             letterCount++;
         }
     }
@@ -259,6 +259,7 @@ function stage3(){
         let operationIndexes = [];
         let firstsOperations = 0
         let result = [];
+        let usedLetters = [];
 
         for(let i = 0; i < v.length; i++){
             for(let j = 0; j < 26; j++){
@@ -296,18 +297,36 @@ function stage3(){
                 if(v[operationIndexes[i] + 1] == "~" && v[operationIndexes[i] - 2] == "~"){
                     letter1 = v[operationIndexes[i] - 2] + v[operationIndexes[i] - 1];
                     letter2 = v[operationIndexes[i] + 1] + v[operationIndexes[i] + 2];
+
+                    usedLetters.push(operationIndexes[i] - 1);
+                    usedLetters.push(operationIndexes[i] + 2);
+
                 }else if(v[operationIndexes[i] + 1] != "~" && v[operationIndexes[i] - 2] == "~"){
                     letter1 = v[operationIndexes[i] - 2] + v[operationIndexes[i] - 1];
                     letter2 = v[operationIndexes[i] + 1];
+
+                    usedLetters.push(operationIndexes[i] - 1);
+                    usedLetters.push(operationIndexes[i] + 1);
+
                 }else if(v[operationIndexes[i] + 1] == "~" && v[operationIndexes[i] - 2] != "~"){
                     letter1 = v[operationIndexes[i] - 1];
                     letter2 = v[operationIndexes[i] + 1] + v[operationIndexes[i] + 2];
+
+                    usedLetters.push(operationIndexes[i] - 1);
+                    usedLetters.push(operationIndexes[i] + 2);
+
                 }else if(v[operationIndexes[i] + 1] != "~" && v[operationIndexes[i] - 2] != "~"){
                     letter1 = v[operationIndexes[i] - 1];
                     letter2 = v[operationIndexes[i] + 1];
+
+                    usedLetters.push(operationIndexes[i] - 1);
+                    usedLetters.push(operationIndexes[i] + 1);
+
                 }
 
                 result = orTest1(table, lines, lettersPosition, letter1, letter2);
+
+
 
                 console.log(letter1);
                 console.log(letter2);
@@ -320,15 +339,27 @@ function stage3(){
                 if(v[operationIndexes[i] + 1] == "~" && v[operationIndexes[i] - 2] == "~"){
                     letter1 = v[operationIndexes[i] - 2] + v[operationIndexes[i] - 1];
                     letter2 = v[operationIndexes[i] + 1] + v[operationIndexes[i] + 2];
+
+                    usedLetters.push(operationIndexes[i] - 1);
+                    usedLetters.push(operationIndexes[i] + 2);
                 }else if(v[operationIndexes[i] + 1] != "~" && v[operationIndexes[i] - 2] == "~"){
                     letter1 = v[operationIndexes[i] - 2] + v[operationIndexes[i] - 1];
                     letter2 = v[operationIndexes[i] + 1];
+
+                    usedLetters.push(operationIndexes[i] - 1);
+                    usedLetters.push(operationIndexes[i] + 1);
                 }else if(v[operationIndexes[i] + 1] == "~" && v[operationIndexes[i] - 2] != "~"){
                     letter1 = v[operationIndexes[i] - 1];
                     letter2 = v[operationIndexes[i] + 1] + v[operationIndexes[i] + 2];
+
+                    usedLetters.push(operationIndexes[i] - 1);
+                    usedLetters.push(operationIndexes[i] + 2);
                 }else if(v[operationIndexes[i] + 1] != "~" && v[operationIndexes[i] - 2] != "~"){
                     letter1 = v[operationIndexes[i] - 1];
                     letter2 = v[operationIndexes[i] + 1];
+
+                    usedLetters.push(operationIndexes[i] - 1);
+                    usedLetters.push(operationIndexes[i] + 1);
                 }
 
                 result = andTest1(table, lines, lettersPosition, letter1, letter2);
@@ -345,24 +376,78 @@ function stage3(){
             operationIndexes.shift();
         }
 
+        for(let i = 0; i < usedLetters.length; i++){
+            for(let j = 0; j < letterIndex.length; j++){
+                if(usedLetters[i] == letterIndex[j]){
+                    letterIndex.splice(j, 1);
+                }
+            } 
+        }
+
+        console.log(letterIndex);
         console.log(table);
         console.log(results);
         console.log(operationIndexes);
+
+        let counter = 0;
 
         for(let i = 0; i < operationIndexes.length; i++){
             if(v[operationIndexes[i]] == chars[27]){
                 result = ifOnlyIfTest(results, lines);
             }else if(v[operationIndexes[i]] == chars[30]){
-                result = ifTest(results, lines);
+                if(letterIndex.length == 0){
+                    result = ifTest(results, lines);
+                    results.unshift(result);
+                }else{
+                    results.unshift([]);
+                    if(v[letterIndex[counter] - 1] == "~"){
+                        for(let j = 0; j < lines; j++){
+                            if(!(table[lettersPosition.indexOf(v[letterIndex[counter]])][j]) == true && results[results.length - (counter + 1)][j] == true){
+                                results[counter][j] = true;
+                            }else if(!(table[lettersPosition.indexOf(v[letterIndex[counter]])][j]) == true && results[results.length - (counter + 1)][j] == false){
+                                results[counter][j] = false;
+                            }else if(!(table[lettersPosition.indexOf(v[letterIndex[counter]])][j]) == false && results[results.length - (counter + 1)][j] == true){
+                                results[counter][j] = true;
+                            }else if(!(table[lettersPosition.indexOf(v[letterIndex[counter]])][j]) == false && results[results.length - (counter + 1)][j] == false){
+                                results[counter][j] = true;
+                            }
+                        }
+                    }else{
+                        for(let j = 0; j < lines; j++){
+                            if(table[lettersPosition.indexOf(v[letterIndex[counter]])][j] == true && results[results.length - (counter + 1)][j] == true){
+                                results[counter][j] = true;
+                            }else if(table[lettersPosition.indexOf(v[letterIndex[counter]])][j] == true && results[results.length - (counter + 1)][j] == false){
+                                results[counter][j] = false;
+                            }else if(table[lettersPosition.indexOf(v[letterIndex[counter]])][j] == false && results[results.length - (counter + 1)][j] == true){
+                                results[counter][j] = true;
+                            }else if(table[lettersPosition.indexOf(v[letterIndex[counter]])][j] == false && results[results.length - (counter + 1)][j] == false){
+                                results[counter][j] = true;
+                            }
+                        }
+                    }
+                    counter++;
+                    letterIndex.shift();
+                    
+                    //result = ifTest2(results, lines, results.length - counter, letterTester(letterIndex[counter]));
+                }
             }else if(v[operationIndexes[i]] == chars[28]){
                 result = orTest2(results, lines);
             }else if(v[operationIndexes[i]] == chars[29]){
                 result = andTest2(results, lines);
             }
-            results.unshift(result);
+            
         }
 
         console.log(results);
+    }
+
+    function letterTester(position, value){
+        let newValue = value;
+
+        if(v[position - 1] == "~"){
+            newValue = !newValue;
+        }
+        return newValue;
     }
 
     function orTest1(table, tableLength, letters, letter1, letter2){
