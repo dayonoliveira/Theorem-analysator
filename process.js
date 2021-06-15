@@ -370,11 +370,9 @@ function stage3(){
             }
             //table.unshift(result);
             results.unshift(result);
-        }
-
-        for(let i = 0; i < firstsOperations; i++){
             operationIndexes.shift();
         }
+
 
         for(let i = 0; i < usedLetters.length; i++){
             for(let j = 0; j < letterIndex.length; j++){
@@ -534,6 +532,31 @@ function stage3(){
         }
 
         console.log(results);
+
+        let finalResult = "";
+        counter = 0;
+
+        for(let i = 0; i < lines; i++){
+            if(results[0][0] == results[0][i]){
+                counter++;
+            }
+        }
+
+        if(results.length == counter){
+            if(results[0][0] == true){
+                document.getElementById("stageThreeTitle").innerHTML = "Etapa III - Concluída";
+                document.getElementById("resultThree").innerHTML = "Tautologia";
+            }else if(results[0][0] == false){
+                document.getElementById("stageThreeTitle").innerHTML = "Etapa III - Concluída";
+                document.getElementById("resultThree").innerHTML = "Contradição";
+            }
+        }else{
+            document.getElementById("stageThreeTitle").innerHTML = "Etapa III - Concluída";
+            document.getElementById("resultThree").innerHTML = "Contingência";
+        }
+
+
+        
     }
 
 
