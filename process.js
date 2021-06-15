@@ -393,10 +393,8 @@ function stage3(){
 
         for(let i = 0; i < operationIndexes.length; i++){
             if(v[operationIndexes[i]] == chars[27]){
-                result = ifOnlyIfTest(results, lines);
-            }else if(v[operationIndexes[i]] == chars[30]){
                 if(letterIndex.length == 0){
-                    result = ifTest(results, lines);
+                    result = ifOnlyIfTest(results, lines);
                     results.unshift(result);
                 }else{
                     results.unshift([]);
@@ -428,7 +426,41 @@ function stage3(){
                     counter++;
                     letterIndex.shift();
                     
-                    //result = ifTest2(results, lines, results.length - counter, letterTester(letterIndex[counter]));
+                }
+            }else if(v[operationIndexes[i]] == chars[30]){
+                if(letterIndex.length == 0){
+                    result = ifTest(results, lines);
+                    results.unshift(result);
+                }else{
+                    results.unshift([]);
+                    if(v[letterIndex[counter] - 1] == "~"){
+                        for(let j = 0; j < lines; j++){
+                            if(!(table[lettersPosition.indexOf(v[letterIndex[counter]])][j]) == true && results[results.length - (counter + 1)][j] == true){
+                                results[counter][j] = true;
+                            }else if(!(table[lettersPosition.indexOf(v[letterIndex[counter]])][j]) == true && results[results.length - (counter + 1)][j] == false){
+                                results[counter][j] = false;
+                            }else if(!(table[lettersPosition.indexOf(v[letterIndex[counter]])][j]) == false && results[results.length - (counter + 1)][j] == true){
+                                results[counter][j] = false;
+                            }else if(!(table[lettersPosition.indexOf(v[letterIndex[counter]])][j]) == false && results[results.length - (counter + 1)][j] == false){
+                                results[counter][j] = true;
+                            }
+                        }
+                    }else{
+                        for(let j = 0; j < lines; j++){
+                            if(table[lettersPosition.indexOf(v[letterIndex[counter]])][j] == true && results[results.length - (counter + 1)][j] == true){
+                                results[counter][j] = true;
+                            }else if(table[lettersPosition.indexOf(v[letterIndex[counter]])][j] == true && results[results.length - (counter + 1)][j] == false){
+                                results[counter][j] = false;
+                            }else if(table[lettersPosition.indexOf(v[letterIndex[counter]])][j] == false && results[results.length - (counter + 1)][j] == true){
+                                results[counter][j] = false;
+                            }else if(table[lettersPosition.indexOf(v[letterIndex[counter]])][j] == false && results[results.length - (counter + 1)][j] == false){
+                                results[counter][j] = true;
+                            }
+                        }
+                    }
+                    counter++;
+                    letterIndex.shift();
+                    
                 }
             }else if(v[operationIndexes[i]] == chars[28]){
                 result = orTest2(results, lines);
